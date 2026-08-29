@@ -15,6 +15,26 @@ everything and leaves four lists in the current Problem:
 
 You then add a graph page in the same Problem to visualize `mag` vs `freq`.
 
+## Why pasting used to break (and the actual fix)
+
+This is a known, long-standing bug in the Program Editor, not something
+specific to this program. The Nspire Program Editor auto-indents as you
+type, and if pasted text already carries its own leading whitespace
+(indentation), that collides with the editor's auto-indent logic and can
+corrupt the whole paste — which is consistent with a paste rendering as
+one giant comment-colored block. This is documented behavior: the
+community compiler project [nsbcomp](https://github.com/eerotal/nsbcomp)
+exists specifically to work around it, and its README states the fix
+plainly — output must have **zero leading whitespace on every line**
+("the pasted version doesn't include any kind of indentation"). Real
+line breaks paste fine; leading spaces/tabs are what breaks it.
+
+`fftgraph.tibas` in this repo is now written flush-left (no indentation
+at all, one statement per line) specifically so it can be pasted
+directly. If you'd previously tried a version with indented/nested code
+(like the first version here), that's almost certainly why it jumbled —
+independent of any comment characters.
+
 ## Installing
 
 1. In TI-Nspire Student/Teacher Software: create a new document, then
@@ -22,20 +42,14 @@ You then add a graph page in the same Problem to visualize `mag` vs `freq`.
    `fftgraph`. The editor auto-generates the `Define fftgraph()=Prgm`
    and `EndPrgm` lines — you only paste/type the body between them
    (everything in `fftgraph.tibas` except the first and last line).
-2. Click inside the body area and paste the body.
-3. **If the pasted code turns into one big comment block** (this
-   happens when the clipboard paste doesn't preserve real line breaks,
-   so the whole paste is read as a single logical line): the file no
-   longer contains any `©` comment characters, which removes the most
-   likely cause. If it still happens:
-   - Paste into a plain-text editor (Notepad, TextEdit in plain-text
-     mode) first, copy from there, then paste into the Program Editor.
-     This strips hidden formatting/characters that can survive a direct
-     copy from a browser or other rich-text source.
-   - Or paste in small chunks (a few lines at a time), pressing Enter
-     after each chunk to confirm the line breaks landed.
-   - Or type the program in by hand — it's short enough, and guarantees
-     correct line breaks.
+2. Click inside the body area and paste the body. It should land as
+   flat, unindented lines that the editor auto-indents itself as it
+   parses each `For`/`If`/`EndFor`/`EndIf` — that's expected and fine.
+3. If it still jumbles: paste into a plain-text editor (Notepad,
+   TextEdit in plain-text mode) first to strip any hidden formatting
+   picked up from the source, copy again from there, then paste into
+   the Program Editor. As a last resort, type it in by hand — the file
+   has no indentation to worry about now.
 4. The imaginary unit in the FFT twiddle factor line
    (`wm:=cos(-2*π/m)+ⅈ*sin(-2*π/m)`) uses two special Nspire symbols:
    **π** and the italic imaginary unit **ⅈ**. If Check Syntax flags an
@@ -43,7 +57,9 @@ You then add a graph page in the same Problem to visualize `mag` vs `freq`.
    re-insert them using the on-screen/handheld **π** key and the **𝑖**
    (imaginary unit) key or catalog template, rather than typing the
    plain keyboard letters `pi` or `i`.
-5. Check syntax (Menu > Check Syntax & Store) and save.
+5. Check syntax (Menu > Check Syntax & Store) and save. The editor will
+   re-indent the body automatically once it parses successfully — you
+   don't need to (and shouldn't) add indentation yourself before that.
 
 ## Running
 
