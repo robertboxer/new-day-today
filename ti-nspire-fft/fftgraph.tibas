@@ -1,11 +1,4 @@
 Define fftgraph()=Prgm
-  © fftgraph: sample a time-domain expression f(t), run a radix-2
-  © Cooley-Tukey FFT on it, and store the resulting frequency-domain
-  © lists (freq, mag) plus the sampled time-domain lists (tlist, xlist)
-  © as document variables so they can be graphed on a Graphs or
-  © Data & Statistics page. Run this program on the same Problem page
-  © as the graph you plan to build, since Nspire variables are shared
-  © per-Problem.
   Local i,val,rev,b,s,m,halfm,wm,kk,w,j,tmp,u,t,X
 
   ClrIO
@@ -22,7 +15,6 @@ Define fftgraph()=Prgm
   n:=2^k
   fs:=1/dt
 
-  © --- Sample the time-domain expression at n points ---
   tlist:=seq((i-1)*dt,i,1,n)
   xlist:=NewList(n)
   For i,1,n
@@ -30,7 +22,6 @@ Define fftgraph()=Prgm
     xlist[i]:=expr(strExpr)
   EndFor
 
-  © --- Bit-reversal permutation into the working array X ---
   X:=NewList(n)
   For i,0,n-1
     val:=i
@@ -42,7 +33,6 @@ Define fftgraph()=Prgm
     X[rev+1]:=xlist[i+1]
   EndFor
 
-  © --- Iterative radix-2 FFT (Cooley-Tukey, decimation in time) ---
   For s,1,k
     m:=2^s
     halfm:=m/2
@@ -59,7 +49,6 @@ Define fftgraph()=Prgm
     EndFor
   EndFor
 
-  © --- One-sided magnitude spectrum (DC .. Nyquist) ---
   freq:=seq((i-1)*fs/n,i,1,n/2+1)
   mag:=NewList(n/2+1)
   For i,1,n/2+1

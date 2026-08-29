@@ -17,16 +17,33 @@ You then add a graph page in the same Problem to visualize `mag` vs `freq`.
 
 ## Installing
 
-1. In TI-Nspire Student/Teacher Software (or on the handheld): create a
-   new document, then **Insert > Program Editor**.
-2. Name the program `fftgraph` and paste in the contents of
-   `fftgraph.tibas`.
-3. Note: the imaginary unit in the FFT twiddle factor is the special
-   Nspire italic **ⅈ** symbol (from the π/𝑖 template key), not the letter
-   `i`. If your editor/paste strips it, retype that character using the
-   calculator's built-in `i` (imaginary unit) key/template instead of the
-   keyboard letter `i`.
-4. Check syntax (Menu > Check Syntax & Store) and save.
+1. In TI-Nspire Student/Teacher Software: create a new document, then
+   **Insert > Program Editor**, choose type **Program**, and name it
+   `fftgraph`. The editor auto-generates the `Define fftgraph()=Prgm`
+   and `EndPrgm` lines — you only paste/type the body between them
+   (everything in `fftgraph.tibas` except the first and last line).
+2. Click inside the body area and paste the body.
+3. **If the pasted code turns into one big comment block** (this
+   happens when the clipboard paste doesn't preserve real line breaks,
+   so the whole paste is read as a single logical line): the file no
+   longer contains any `©` comment characters, which removes the most
+   likely cause. If it still happens:
+   - Paste into a plain-text editor (Notepad, TextEdit in plain-text
+     mode) first, copy from there, then paste into the Program Editor.
+     This strips hidden formatting/characters that can survive a direct
+     copy from a browser or other rich-text source.
+   - Or paste in small chunks (a few lines at a time), pressing Enter
+     after each chunk to confirm the line breaks landed.
+   - Or type the program in by hand — it's short enough, and guarantees
+     correct line breaks.
+4. The imaginary unit in the FFT twiddle factor line
+   (`wm:=cos(-2*π/m)+ⅈ*sin(-2*π/m)`) uses two special Nspire symbols:
+   **π** and the italic imaginary unit **ⅈ**. If Check Syntax flags an
+   error on that line specifically, delete those two characters and
+   re-insert them using the on-screen/handheld **π** key and the **𝑖**
+   (imaginary unit) key or catalog template, rather than typing the
+   plain keyboard letters `pi` or `i`.
+5. Check syntax (Menu > Check Syntax & Store) and save.
 
 ## Running
 
