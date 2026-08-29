@@ -1,0 +1,55 @@
+Define fftgraph()=Prgm
+Local i,val,rev,b,s,m,halfm,wm,kk,w,j,tmp,u,t,X
+ClrIO
+RequestStr "f(t) = (use t as the variable, e.g. sin(t)+2*cos(t))",strExpr
+Request "Samples exponent k (n = 2^k samples)",k
+Request "Sample spacing dt (seconds)",dt
+k:=iPart(k)
+If dt<=0 or k<1 Then
+Disp "Invalid input: need dt>0 and k>=1."
+Stop
+EndIf
+n:=2^k
+fs:=1/dt
+tlist:=seq((i-1)*dt,i,1,n)
+xlist:=NewList(n)
+For i,1,n
+t:=tlist[i]
+xlist[i]:=expr(strExpr)
+EndFor
+X:=NewList(n)
+For i,0,n-1
+val:=i
+rev:=0
+For b,1,k
+rev:=2*rev+mod(val,2)
+val:=iPart(val/2)
+EndFor
+X[rev+1]:=xlist[i+1]
+EndFor
+For s,1,k
+m:=2^s
+halfm:=m/2
+wm:=cos(-2*π/m)+ⅈ*sin(-2*π/m)
+For kk,0,n-1,m
+w:=1
+For j,0,halfm-1
+tmp:=w*X[kk+j+halfm+1]
+u:=X[kk+j+1]
+X[kk+j+1]:=u+tmp
+X[kk+j+halfm+1]:=u-tmp
+w:=w*wm
+EndFor
+EndFor
+EndFor
+freq:=seq((i-1)*fs/n,i,1,n/2+1)
+mag:=NewList(n/2+1)
+For i,1,n/2+1
+mag[i]:=2*abs(X[i])/n
+EndFor
+mag[1]:=mag[1]/2
+Disp "FFT complete."
+Disp "Lists created: tlist, xlist, freq, mag"
+Disp "Insert a Graphs or Data & Statistics page and"
+Disp "plot mag (y) vs freq (x) to view the spectrum."
+EndPrgm
